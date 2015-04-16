@@ -1,43 +1,59 @@
-CFLAGS		+= -ffreestanding -march=mips32r2 -msoft-float -Wa,-msoft-float
-ASFLAGS		+= -msoft-float
-LDFLAGS		+= -T p32mx320f128h.ld
-#LDFLAGS		+= -nostdlib -static -nostartfiles -lgcc
+# PIC32 device number
+DEVICE		= 32MX320F128H
 
+# UART settings for programmer
+TTYDEV		?=/dev/ttyUSB0
+TTYBAUD		?=115200
+
+# Name of the project
 PROGNAME	= outfile
 
+# Compiler and linker flags
+CFLAGS		+= -ffreestanding -march=mips32r2 -msoft-float -Wa,-msoft-float
+ASFLAGS		+= -msoft-float
+LDFLAGS		+= -T "p$(shell echo "$(DEVICE)" | tr '[:upper:]' '[:lower:]').ld"
+
+# Filenames
 ELFFILE		= $(PROGNAME).elf
 HEXFILE		= $(PROGNAME).hex
 
-TTYDEV		= /dev/ttyUSB0
-TTYBAUD		= 115200
-DEVICE		= 32MX320F128H
-
+# Find all source files automatically
 CFILES          = $(wildcard *.c)
 ASFILES         = $(wildcard *.S)
+
+# Object file names
 OBJFILES        = $(CFILES:.c=.c.o)
 OBJFILES        +=$(ASFILES:.S=.S.o)
 
 .PHONY: all clean install envcheck
 
-all: envcheck $(HEXFILE)
+all: $(HEXFILE)
 
 clean:
 	$(RM) $(HEXFILE) $(ELFFILE) $(OBJFILES)
 
 envcheck:
-	@[ "$(TARGET)" = "mipsel-pic32-elf-" ] || (echo "Make sure you have sourced the cross compiling environment"; exit 1)
+	@echo "$(TARGET)" | grep pic32 > /dev/null || (\
+		echo ""; \
+		echo " **************************************************************"; \
+		echo " * Make sure you have sourced the cross compiling environment *"; \
+		echo " * Do this by issuing:                                        *"; \
+		echo " * . /path/to/crosscompiler/environment                       *"; \
+		echo " **************************************************************"; \
+		echo ""; \
+		exit 1)
 
-install:
-	$(TARGET)avrdude -v -p $(DEVICE) -c stk500v2 -P "$(TTYDEV)" -b $(TTYBAUD) -U "flash:w:$(HEXFILE)"
+install: envcheck
+	$(TARGET)avrdude -v -p $(shell echo "$(DEVICE)" | tr '[:lower:]' '[:upper:]') -c stk500v2 -P "$(TTYDEV)" -b $(TTYBAUD) -U "flash:w:$(HEXFILE)"
 
-$(ELFFILE): $(OBJFILES)
+$(ELFFILE): $(OBJFILES) envcheck
 	$(CC) $(CFLAGS) -o $@ $(OBJFILES) $(LDFLAGS)
 
-$(HEXFILE): $(ELFFILE)
+$(HEXFILE): $(ELFFILE) envcheck
 	$(TARGET)bin2hex -a $(ELFFILE)
 
-%.c.o: %.c
+%.c.o: %.c envcheck
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-%.S.o: %.S
+%.S.o: %.S envcheck
 	$(CC) $(CFLAGS) -c -o $@ $<
