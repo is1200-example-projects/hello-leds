@@ -36,7 +36,7 @@ the usb serial port. You can do this by looking at /dev as you plug and
 unplug the Uno32 to your computer.
  - Linux: This is normally `/dev/ttyUSB0`
  - Windows: In MSYS2, this is normally `/dev/ttyS2`
- - Mac: This is normally `/dev/cu.*`
+ - Mac: This is normally `/dev/cu.usbserial-*`
 
 When you know the path to your serial device, issue the command
 `make install TTYDEV=/dev/ttyUSB0`, substituting the correct path of the
