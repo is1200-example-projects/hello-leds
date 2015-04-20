@@ -16,17 +16,25 @@ You need the following to compile and test hello leds:
    - Linux: The drivers are already installed on your system.
    - Windows: The drivers should download automatically from Windows update when
      you plug your Uno32 into your computer.
-   - Mac: Download the [drivers](http://www.ftdichip.com/Drivers/VCP.htm)
-     from the FTDI website.
+   - Mac: Drivers should install automatically. If they don't, download the [drivers](http://www.ftdichip.com/Drivers/VCP.htm)
+     from the FTDI website for your version of MacOS X.
    
 
 ## Building the sources
 To build the sources, first enter the cross compiling environment. This is done
-by sourcing the environment file in your shell. If your toolchain is installed
+by sourcing the environment file in your shell. 
+
+### Entering the toolchain environment on MSYS2 or Linux
+If your toolchain is installed
 in the default location, you can source the cross compiling environment
 by typing `. /opt/pic32-toolchain/environment` in your shell. Note the space
 between the dot and the slash.
 
+### Entering the toolchain environment on MacOS X
+Launch the toolchain environment app and it will give you a terminal window with
+your command line marked `[PIC32 CROSS]`, this indicates you're using the PIC32 toolchain.
+
+### Building in the environment
 Next, enter the directory with the source code. To start the compilation, type
 `make` in the shell.
 
