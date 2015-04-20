@@ -27,13 +27,14 @@ by sourcing the environment file in your shell.
 ### Entering the toolchain environment on MSYS2 or Linux
 If your toolchain is installed
 in the default location, you can source the cross compiling environment
-by typing
+by typing  
 `. /opt/pic32-toolchain/environment` in your shell. Note the space
 between the dot and the slash.
 
 ### Entering the toolchain environment on MacOS X
 Launch the toolchain environment app and it will give you a terminal window with
-your command line marked `[PIC32 CROSS]`, this indicates you're using the PIC32 toolchain.
+your command line marked  
+`[PIC32 CROSS]`, this indicates you're using the PIC32 toolchain.
 
 ### Building in the environment
 Next, enter the directory with the source code. To start the compilation, type
