@@ -1,4 +1,4 @@
-# Hello leds
+# Hello LEDs
 "Hello world" for the Chipkit Uno32 with IO-shield. This program tests basic
 input/output functionality. When running, the LEDs on the IO-shield will flash
 in sequence. The direction of the sequence can be controlled with the switch
