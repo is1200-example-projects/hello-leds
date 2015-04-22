@@ -48,7 +48,7 @@ unplug the Uno32 to your computer.
  - Windows: In MSYS2, this is normally `/dev/ttyS2`
  - Mac: This is normally `/dev/cu.usbserial-*`
 
-When you know the path to your serial device, issue the command
+When you know the path to your serial device, issue the command  
 `make install TTYDEV=/dev/ttyUSB0`, substituting the correct path of the
 device.
 
