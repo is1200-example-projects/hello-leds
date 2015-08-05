@@ -1,9 +1,9 @@
-#include <proc/p32mx320f128h.h>
+#include <pic32mx.h>
 
 int answer_to_life_the_universe_and_everything();
 
 void delay(int cyc) {
-	int i;
+	volatile int i;
 	for(i = cyc; i > 0; i--);
 }
 
